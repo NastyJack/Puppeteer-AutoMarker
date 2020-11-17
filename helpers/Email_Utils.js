@@ -12,8 +12,8 @@ var transport = nodemailer.createTransport({
 function setEmailPayload(scriptResults, error) {
   if (scriptResults == "Sign IN Success")
     return (mailOptions = {
-      from: "cross99.rishabh@gmail.com",
-      to: "rishabh.nishad.98@gmail.com",
+      from: process.env.EMAIL_SENDER,
+      to: process.env.EMAIL_RECIPIENT,
       subject: "SIGNED IN",
       text:
         "You have successfully signed in to greytHR at " +
@@ -22,16 +22,16 @@ function setEmailPayload(scriptResults, error) {
     });
   if (scriptResults == "Sign IN Failed")
     return (mailOptions = {
-      from: "cross99.rishabh@gmail.com",
-      to: "rishabh.nishad.98@gmail.com",
+      from: process.env.EMAIL_SENDER,
+      to: process.env.EMAIL_RECIPIENT,
       subject: "FAILED AT SIGN IN",
       text: "",
       html: "<span>Error = " + error + "</span>",
     });
   if (scriptResults == "Sign OUT Success")
     return (mailOptions = {
-      from: "cross99.rishabh@gmail.com",
-      to: "rishabh.nishad.98@gmail.com",
+      from: process.env.EMAIL_SENDER,
+      to: process.env.EMAIL_RECIPIENT,
       subject: "SIGNED OUT",
       text:
         "You have successfully signed out of greytHR at " +
@@ -40,8 +40,8 @@ function setEmailPayload(scriptResults, error) {
     });
   if (scriptResults == "Sign OUT Failed")
     return (mailOptions = {
-      from: "cross99.rishabh@gmail.com",
-      to: "rishabh.nishad.98@gmail.com",
+      from: process.env.EMAIL_SENDER,
+      to: process.env.EMAIL_RECIPIENT,
       subject: "FAILED AT SIGN OUT",
       text: "",
       html: "<span>Error = " + error + "</span>",
