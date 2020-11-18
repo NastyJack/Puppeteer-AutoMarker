@@ -1,8 +1,18 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
-//const firefox = require("selenium-webdriver/firefox");
 const chrome = require("selenium-webdriver/chrome");
 const webdriver = require("selenium-webdriver");
 const Send = require("../../helpers/Email_Utils");
+
+//=========Uncomment for heroku deployed code========//
+// let options = new chrome.Options();
+// options.setChromeBinaryPath(process.env.CHROME_BINARY_PATH);
+// let serviceBuilder = new chrome.ServiceBuilder(process.env.CHROME_DRIVER_PATH);
+
+// //Important for heroku
+// options.addArguments("--headless");
+// options.addArguments("--disable-gpu");
+// options.addArguments("--no-sandbox");
+//===================================================//
 
 const width = 640;
 const height = 480;
@@ -10,9 +20,11 @@ const height = 480;
 module.exports = async function SeleniumScript(action) {
   let driver = await new webdriver.Builder()
     .forBrowser("chrome")
-    .setChromeOptions(
-      new chrome.Options().headless().windowSize({ width, height })
-    )
+    .setChromeOptions
+    // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
+    // new chrome.Options().headless().windowSize({ width, height })
+    ()
+    .setChromeService(serviceBuilder)
     .build();
 
   try {
@@ -61,12 +73,14 @@ async function closeScript(driver) {
 }
 
 function doSignIn(driver) {
+  //Uncomment this to allow clicking of Sign-In button for attendance.
   // driver.findElement(By.className("btn btn-large btn-success signIn")).click();
   Send.Mail("Sign IN Success", null);
   console.log("Sign IN Success, mail sent");
 }
 
 function doSignOut(driver) {
+  //Uncomment this to allow clicking of Sign-Out button for attendance.
   // driver.findElement(By.className("btn btn-large btn-success signOut")).click();
   Send.Mail("Sign OUT Success", null);
   console.log("Sign OUT Success, mail sent");
