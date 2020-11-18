@@ -1,5 +1,6 @@
 const { Builder, By, Key, until } = require("selenium-webdriver");
-const firefox = require("selenium-webdriver/firefox");
+//const firefox = require("selenium-webdriver/firefox");
+const chrome = require("selenium-webdriver/chrome");
 const webdriver = require("selenium-webdriver");
 const Send = require("../../helpers/Email_Utils");
 
@@ -7,9 +8,12 @@ const width = 640;
 const height = 480;
 
 module.exports = async function SeleniumScript(action) {
-  let driver = await new webdriver.Builder().forBrowser("firefox")
-    .setFirefoxOptions;
-  new firefox.Options().headless().windowSize({ width, height })().build();
+  let driver = await new webdriver.Builder()
+    .forBrowser("chrome")
+    .setChromeOptions(
+      new chrome.Options().headless().windowSize({ width, height })
+    )
+    .build();
 
   try {
     await driver.get(process.env.GREYTHR_ATTENDANCE_LINK);

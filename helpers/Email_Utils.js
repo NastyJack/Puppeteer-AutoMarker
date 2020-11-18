@@ -4,8 +4,8 @@ var transport = nodemailer.createTransport({
   service: "gmail",
   port: 2526,
   auth: {
-    user: process.env.GMAIL_EMAIL,
-    pass: process.env.GMAIL_PWD,
+    user: process.env.EMAIL_SENDER,
+    pass: process.env.EMAIL_PWD,
   },
 });
 
@@ -55,7 +55,6 @@ module.exports = {
         return console.log(error);
       }
       console.log("E-Mail sent: ", info.messageId);
-      process.exit(0);
     });
   },
 };
