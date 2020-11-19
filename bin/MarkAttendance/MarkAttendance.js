@@ -9,10 +9,8 @@ const height = 480;
 module.exports = async function SeleniumScript(action) {
   let driver = await new webdriver.Builder()
     .forBrowser("chrome")
-    .setChromeOptions(
-      // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
-      new chrome.Options().headless().windowSize({ width, height })
-    )
+    // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
+    //.setChromeOptions(new chrome.Options().headless().windowSize({ width, height }))
     .build();
 
   try {
@@ -31,12 +29,14 @@ module.exports = async function SeleniumScript(action) {
     await driver.wait(until.titleIs("Mark Attendance"), 3000);
     await driver.sleep(); //wait for page load to finish
     if (action == "SIGN IN") {
+      console.log("\n> Signing IN...");
       //Uncomment this to allow clicking of Sign-In button for attendance.
       // await driver.findElement(By.className("btn btn-large btn-success signIn")).click();
       Send.Mail("Sign IN Success", null);
       await closeScript(driver);
       return "script success";
     } else if (action == "SIGN OUT") {
+      console.log("\n> Signing IN...");
       //Uncomment this to allow clicking of Sign-Out button for attendance.
       // await driver.findElement(By.className("btn btn-large btn-success signOut")).click();
       Send.Mail("Sign OUT Success", null);
@@ -44,8 +44,7 @@ module.exports = async function SeleniumScript(action) {
       return "script success";
     } else console.log("\n> Nothing was changed.");
   } catch (error) {
-    if (error.name != "ElementNotInteractableError")
-      console.log("Error occured ", error);
+    console.log("Error occured ", error);
     if (action != undefined && action == "SIGN IN")
       Send.Mail("Sign IN Failed", error.toString());
     else Send.Mail("Sign OUT Failed", error.toString());
