@@ -36,7 +36,7 @@ module.exports = async function SeleniumScript(action) {
       await closeScript(driver);
       return "script success";
     } else if (action == "SIGN OUT") {
-      console.log("\n> Signing IN...");
+      console.log("\n> Signing OUT...");
       //Uncomment this to allow clicking of Sign-Out button for attendance.
       // await driver.findElement(By.className("btn btn-large btn-success signOut")).click();
       Send.Mail("Sign OUT Success", null);
