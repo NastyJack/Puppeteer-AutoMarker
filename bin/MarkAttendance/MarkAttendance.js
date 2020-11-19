@@ -9,10 +9,10 @@ const height = 480;
 module.exports = async function SeleniumScript(action) {
   let driver = await new webdriver.Builder()
     .forBrowser("chrome")
-    .setChromeOptions
-    // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
-    // new chrome.Options().headless().windowSize({ width, height })
-    ()
+    .setChromeOptions(
+      // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
+      new chrome.Options().headless().windowSize({ width, height })
+    )
     .build();
 
   try {

@@ -10,14 +10,8 @@ MarkAttendance.SignIn = async (req, res, next) => {
       else throw ScriptResult;
     } else res.status(401).send("Passcode Denied.");
   } catch (error) {
-    if ((error.name = "ElementNotInteractableError")) {
-      res
-        .status(202)
-        .send("You are already signed IN for today! Unable to click button.");
-    } else {
-      console.log("script faliure :", error);
-      res.status(500).send({ error: error });
-    }
+    console.log("ERROR ====", error);
+    res.status(400).send("Invalid request. Error Occured : " + error);
   }
 };
 
