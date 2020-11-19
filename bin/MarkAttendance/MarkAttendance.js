@@ -24,7 +24,8 @@ module.exports = async function SeleniumScript(action) {
     // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
     // new chrome.Options().headless().windowSize({ width, height })
     ()
-    .setChromeService(serviceBuilder)
+    // Uncomment to enable code for heroku
+    // .setChromeService(serviceBuilder)
     .build();
 
   try {
