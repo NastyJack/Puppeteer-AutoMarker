@@ -3,7 +3,7 @@ let MarkAttendance = {};
 
 MarkAttendance.SignIn = async (req, res, next) => {
   try {
-    if (req.body.passcode == "12345") {
+    if (req.body.passcode == process.env.PASSCODE) {
       let ScriptResult = await Selenium("SIGN IN");
       if (ScriptResult == "script success")
         res.status(200).send("Sign IN completed");
@@ -17,7 +17,7 @@ MarkAttendance.SignIn = async (req, res, next) => {
 
 MarkAttendance.SignOut = async (req, res, next) => {
   try {
-    if (req.body.passcode == "12345") {
+    if (req.body.passcode == process.env.PASSCODE) {
       let ScriptResult = await Selenium("SIGN OUT");
       if (ScriptResult == "script success")
         res.status(200).send("Sign OUT completed");
