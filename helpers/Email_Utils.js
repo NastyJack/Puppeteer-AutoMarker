@@ -26,26 +26,6 @@ function setEmailPayload(scriptResults, error) {
       text: "",
       html: "<span>Error = " + error + "</span>",
     });
-  // if (scriptResults == "Sign IN Success")
-  // return (mailOptions = {
-  //   from: process.env.EMAIL_SENDER,
-  //   to: process.env.EMAIL_RECIPIENT,
-  //   subject: "SIGNED IN",
-  //   text:
-  //     "You have successfully signed in to greytHR at " +
-  //     new Date().toLocaleTimeString(),
-  //   html: "",
-  // });
-  // if (scriptResults == "Sign OUT Success")
-  // return (mailOptions = {
-  //   from: process.env.EMAIL_SENDER,
-  //   to: process.env.EMAIL_RECIPIENT,
-  //   subject: "SIGNED OUT",
-  //   text:
-  //     "You have successfully signed out of greytHR at " +
-  //     new Date().toLocaleTimeString(),
-  //   html: "",
-  // });
 }
 module.exports = {
   Mail: function (scriptResults, error) {

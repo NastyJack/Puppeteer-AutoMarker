@@ -17,7 +17,7 @@ module.exports = async function SeleniumScript(action) {
     await driver.get(process.env.GREYTHR_ATTENDANCE_LINK);
     await console.log("\n> Starting script, opening URL...");
 
-    await driver.wait(until.elementLocated(By.id("username")), 3000);
+    await driver.wait(until.elementLocated(By.id("username")), 6000);
     await driver
       .findElement({ id: "username" })
       .sendKeys(process.env.GREYTHR_ID);
@@ -26,20 +26,18 @@ module.exports = async function SeleniumScript(action) {
       .sendKeys(process.env.GREYTHR_PWD, Key.ENTER);
     await console.log("\n> Logged In, processing...");
 
-    await driver.wait(until.titleIs("Mark Attendance"), 3000);
-    await driver.sleep(); //wait for page load to finish
+    await driver.wait(until.titleIs("Mark Attendance"), 6000);
+    await driver.sleep(200); //wait for page load to finish
     if (action == "SIGN IN") {
       console.log("\n> Signing IN...");
       //Uncomment this to allow clicking of Sign-In button for attendance.
       // await driver.findElement(By.className("btn btn-large btn-success signIn")).click();
-      Send.Mail("Sign IN Success", null);
       await closeScript(driver);
       return "script success";
     } else if (action == "SIGN OUT") {
       console.log("\n> Signing OUT...");
       //Uncomment this to allow clicking of Sign-Out button for attendance.
       // await driver.findElement(By.className("btn btn-large btn-success signOut")).click();
-      Send.Mail("Sign OUT Success", null);
       await closeScript(driver);
       return "script success";
     } else console.log("\n> Nothing was changed.");
@@ -56,8 +54,8 @@ module.exports = async function SeleniumScript(action) {
 
 async function closeScript(driver) {
   await console.log("\n> Finished Operation, Exiting...");
-  await driver.sleep(); //wait for page load to finish
+  await driver.sleep(200); //wait for page load to finish
   await driver.findElement(By.className("empSignOut")).click();
-  await driver.wait(until.titleIs("greytHR IDP"), 3000);
+  await driver.wait(until.titleIs("greytHR IDP"), 6000);
   await console.log("\n> Script Finished.\n ");
 }
