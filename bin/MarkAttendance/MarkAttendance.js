@@ -19,26 +19,25 @@ module.exports = async function AutoMarker(action) {
   if (action == "SIGN IN") {
     console.log("\n > Signing IN...");
 
-    // await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
-    // const [doSignIn] = await page.$x("//button[contains(., 'Sign In')]");
-    // if (doSignIn) {
-    //   await doSignIn.click();
-    //   isSuccess=true;
-    // } else {
-    //   throw "ERROR 'Sign In' Button not found";
-    // }
+    await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
+    const [doSignIn] = await page.$x("//button[contains(., 'Sign In')]");
+    if (doSignIn) {
+      await doSignIn.click();
+      isSuccess = true;
+    } else {
+      throw "ERROR 'Sign In' Button not found";
+    }
   } else if (action == "SIGN OUT") {
     console.log("\n > Signing OUT...");
 
-    // await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
-    // const [doSignOut] = await page.$x("//button[contains(., 'Sign Out')]");
-    // if (doSignOut) {
-    //   await doSignOut.click();
-    //   isSuccess = true;
-    //
-    // } else {
-    //   throw "ERROR 'Sign Out' Button not found";
-    // }
+    await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
+    const [doSignOut] = await page.$x("//button[contains(., 'Sign Out')]");
+    if (doSignOut) {
+      await doSignOut.click();
+      isSuccess = true;
+    } else {
+      throw "ERROR 'Sign Out' Button not found";
+    }
   }
 
   await page.click("a[title='Logout']");
