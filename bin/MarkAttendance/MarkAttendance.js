@@ -1,61 +1,50 @@
-const { Builder, By, Key, until } = require("selenium-webdriver");
-const chrome = require("selenium-webdriver/chrome");
-const webdriver = require("selenium-webdriver");
-const Send = require("../../helpers/Email_Utils");
+const puppeteer = require("puppeteer");
 
-const width = 640;
-const height = 480;
+module.exports = async function AutoMarker(action) {
+  let isSuccess = false;
+  console.log("Inside Puppy Script");
+  const browser = await puppeteer.launch({
+    headless: false,
+    //  slowMo: 500,
+  });
+  const page = await browser.newPage();
+  await page.setViewport({ width: 1366, height: 768 });
+  await page.goto(process.env.GREYTHR_ATTENDANCE_LINK);
+  await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
+  console.log("\n > Logging In...");
+  await page.type("input#username", process.env.GREYTHR_ID);
+  await page.type("input#password", process.env.GREYTHR_PWD);
+  await page.keyboard.press("Enter");
 
-module.exports = async function SeleniumScript(action) {
-  let driver = await new webdriver.Builder()
-    .forBrowser("chrome")
-    // Uncomment this to enable browser headless mode. The processing of script will be done in background without visuals
-    //.setChromeOptions(new chrome.Options().headless().windowSize({ width, height }))
-    .build();
+  if (action == "SIGN IN") {
+    console.log("\n > Signing IN...");
 
-  try {
-    await driver.get(process.env.GREYTHR_ATTENDANCE_LINK);
-    await console.log("\n> Starting script, opening URL...");
+    // await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
+    // const [doSignIn] = await page.$x("//button[contains(., 'Sign In')]");
+    // if (doSignIn) {
+    //   await doSignIn.click();
+    //   isSuccess=true;
+    // } else {
+    //   throw "ERROR 'Sign In' Button not found";
+    // }
+  } else if (action == "SIGN OUT") {
+    console.log("\n > Signing OUT...");
 
-    await driver.wait(until.elementLocated(By.id("username")), 6000);
-    await driver
-      .findElement({ id: "username" })
-      .sendKeys(process.env.GREYTHR_ID);
-    await driver
-      .findElement({ id: "password" })
-      .sendKeys(process.env.GREYTHR_PWD, Key.ENTER);
-    await console.log("\n> Logged In, processing...");
-
-    await driver.wait(until.titleIs("Mark Attendance"), 6000);
-    await driver.sleep(200); //wait for page load to finish
-    if (action == "SIGN IN") {
-      console.log("\n> Signing IN...");
-      //Uncomment this to allow clicking of Sign-In button for attendance.
-      // await driver.findElement(By.className("btn btn-large btn-success signIn")).click();
-      await closeScript(driver);
-      return "script success";
-    } else if (action == "SIGN OUT") {
-      console.log("\n> Signing OUT...");
-      //Uncomment this to allow clicking of Sign-Out button for attendance.
-      // await driver.findElement(By.className("btn btn-large btn-success signOut")).click();
-      await closeScript(driver);
-      return "script success";
-    } else console.log("\n> Nothing was changed.");
-  } catch (error) {
-    console.log("Error occured ", error);
-    if (action != undefined && action == "SIGN IN")
-      Send.Mail("Sign IN Failed", error.toString());
-    else Send.Mail("Sign OUT Failed", error.toString());
-    return error; //throw error at controller which is then caught by catch()
-  } finally {
-    await driver.quit();
+    // await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 0 });
+    // const [doSignOut] = await page.$x("//button[contains(., 'Sign Out')]");
+    // if (doSignOut) {
+    //   await doSignOut.click();
+    //   isSuccess = true;
+    //
+    // } else {
+    //   throw "ERROR 'Sign Out' Button not found";
+    // }
   }
-};
 
-async function closeScript(driver) {
-  await console.log("\n> Finished Operation, Exiting...");
-  await driver.sleep(200); //wait for page load to finish
-  await driver.findElement(By.className("empSignOut")).click();
-  await driver.wait(until.titleIs("greytHR IDP"), 6000);
-  await console.log("\n> Script Finished.\n ");
-}
+  await page.click("a[title='Logout']");
+  await page.waitForNavigation(0);
+  await browser.close();
+  console.log(" > Finished Script");
+  if (isSuccess) return "script success";
+  else throw "Script faliure occured";
+};
