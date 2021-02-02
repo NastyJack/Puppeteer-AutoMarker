@@ -1,20 +1,20 @@
 const Automarker = require("./MarkAttendance");
+const SendMail = require("../../helpers/Email_Utils");
 let MarkAttendance = {};
 
 MarkAttendance.SignIn = async (req, res, next) => {
-  console.log("I m inside signIn route");
   try {
     if (req.body.passcode == process.env.PASSCODE) {
       let ScriptResult = await Automarker("SIGN IN");
       if (ScriptResult == "script success")
         res.status(200).send("Sign IN completed");
       else {
-        console.log("I m insdie if block like a madman", ScriptResult);
         throw ScriptResult;
       }
     } else res.status(401).send("Passcode Denied.");
   } catch (error) {
-    console.log("ERROR. Script Faliure :", error);
+    SendMail.Mail("Sign IN Failed", error);
+    console.log("ERROR. Script Faliure at SignIn", error);
     res.status(500).send({ error: error });
   }
 };
@@ -28,7 +28,8 @@ MarkAttendance.SignOut = async (req, res, next) => {
       else throw ScriptResult;
     } else res.status(401).send("Passcode Denied.");
   } catch (error) {
-    console.log("ERROR. Script Faliure :", error);
+    SendMail.Mail("Sign OUT Failed", error);
+    console.log("ERROR. Script Faliure at SignOut");
     res.status(500).send({ error: error });
   }
 };

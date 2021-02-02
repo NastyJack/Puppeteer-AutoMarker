@@ -1,8 +1,16 @@
 var nodemailer = require("nodemailer");
 
 var transport = nodemailer.createTransport({
-  service: "gmail",
-  port: 2526,
+  // service: "gmail",
+  // port: 2526,
+  // auth: {
+  //   user: process.env.EMAIL_SENDER,
+  //   pass: process.env.EMAIL_PWD,
+  // },
+
+  host: "smtp.mailgun.org",
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_SENDER,
     pass: process.env.EMAIL_PWD,
