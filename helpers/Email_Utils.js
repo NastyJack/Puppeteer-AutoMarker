@@ -24,7 +24,7 @@ function setEmailPayload(scriptResults, error) {
       to: process.env.EMAIL_RECIPIENT,
       subject: "FAILED AT SIGN OUT",
       text: "",
-      html: "<span>Error = " + error + "</span>",
+      html: "<span> " + error + "</span>",
     });
   if (scriptResults == "Sign IN Failed")
     return (mailOptions = {
@@ -32,7 +32,7 @@ function setEmailPayload(scriptResults, error) {
       to: process.env.EMAIL_RECIPIENT,
       subject: "FAILED AT SIGN IN",
       text: "",
-      html: "<span>Error = " + error + "</span>",
+      html: "<span> " + error + "</span>",
     });
 }
 module.exports = {
