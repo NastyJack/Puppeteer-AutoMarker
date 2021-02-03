@@ -29,7 +29,7 @@ MarkAttendance.SignOut = async (req, res, next) => {
     } else res.status(401).send("Passcode Denied.");
   } catch (error) {
     SendMail.Mail("Sign OUT Failed", error);
-    console.log("ERROR. Script Faliure at SignOut");
+    console.log("ERROR. Script Faliure at SignOut", error);
     res.status(500).send({ error: error });
   }
 };
