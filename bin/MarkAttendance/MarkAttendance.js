@@ -25,8 +25,8 @@ module.exports = async function AutoMarker(action) {
 
     const [doSignIn] = await page.$x("//button[contains(., 'Sign In')]");
     if (doSignIn) {
-      await doSignIn.click().then({ isSuccess = true});
-     
+      await doSignIn.click();
+      isSuccess = true;
     } else {
       throw "ERROR 'Sign In' Button not found";
     }
@@ -35,8 +35,8 @@ module.exports = async function AutoMarker(action) {
 
     const [doSignOut] = await page.$x("//button[contains(., 'Sign Out')]");
     if (doSignOut) {
-      await doSignOut.click().then({ isSuccess = true});
-      
+      await doSignOut.click();
+      isSuccess = true;
     } else {
       throw "ERROR 'Sign Out' Button not found";
     }
