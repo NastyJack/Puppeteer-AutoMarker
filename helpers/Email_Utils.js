@@ -43,6 +43,7 @@ module.exports = {
         return console.log(error);
       }
       console.log("E-Mail sent: ", info.messageId);
+      process.exit(0);
     });
   },
 };

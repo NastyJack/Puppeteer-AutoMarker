@@ -21,8 +21,9 @@ module.exports = async function AutoMarker(action) {
   await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
 
   if (action == "SIGN IN") {
+    console.log("\n > Waiting for button to load...");
+    await page.waitForXPath("//button[contains(., 'Sign Out')]");
     console.log("\n > Signing IN...");
-
     const [doSignIn] = await page.$x("//button[contains(., 'Sign In')]");
     if (doSignIn) {
       await doSignIn.click();
@@ -31,9 +32,11 @@ module.exports = async function AutoMarker(action) {
       throw "ERROR 'Sign In' Button not found";
     }
   } else if (action == "SIGN OUT") {
+    console.log("\n > Waiting for button to load...");
+    await page.waitForXPath("//button[contains(., 'Sign Out')]");
     console.log("\n > Signing OUT...");
-
     const [doSignOut] = await page.$x("//button[contains(., 'Sign Out')]");
+
     if (doSignOut) {
       await doSignOut.click();
       isSuccess = true;
