@@ -22,7 +22,7 @@ module.exports = async function AutoMarker(action) {
 
   if (action == "SIGN IN") {
     console.log("\n > Waiting for button to load...");
-    await page.waitForXPath("//button[contains(., 'Sign Out')]");
+    await page.waitForXPath("//button[contains(., 'Sign In')]");
     console.log("\n > Signing IN...");
     const [doSignIn] = await page.$x("//button[contains(., 'Sign In')]");
     if (doSignIn) {
