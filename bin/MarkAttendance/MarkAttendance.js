@@ -3,16 +3,17 @@ const puppeteer = require("puppeteer");
 module.exports = async function AutoMarker(action) {
   let isSuccess = false,
     text = null,
+    //                 `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`
     buttonToClick = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`;
   buttonText = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button > span")`;
   console.log("Inside Puppy Script");
   const browser = await puppeteer.launch({
     //Uncomment for debugging
-    //headless: false,
+    // headless: false,
     //  slowMo: 500,
 
     //Required for operation
-    headless: true,
+    // headless: true,
     defaultViewport: null,
     args: ["--incognito", "--no-sandbox", "--single-process", "--no-zygote"],
   });
@@ -24,6 +25,7 @@ module.exports = async function AutoMarker(action) {
   await page.type("input#username", process.env.GREYTHR_ID);
   await page.type("input#password", process.env.GREYTHR_PWD);
   await page.keyboard.press("Enter");
+  await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
   await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
 
   if (action == "SIGN IN") {
@@ -42,6 +44,7 @@ module.exports = async function AutoMarker(action) {
     console.log("\n > Waiting for button to load...");
     text = (await page.evaluateHandle(buttonText)).asElement();
     text = await GetProperty(text, `innerHTML`);
+
     // console.log("button text element ==", text);
     const doSignOut = (await page.evaluateHandle(buttonToClick)).asElement();
     if (text === "Sign Out" && doSignOut) {
