@@ -9,11 +9,11 @@ module.exports = async function AutoMarker(action) {
   console.log("Inside Puppy Script");
   const browser = await puppeteer.launch({
     //Uncomment for debugging
-    // headless: false,
-    //  slowMo: 500,
+    //headless: false,
+    //slowMo: 500,
 
     //Required for operation
-    // headless: true,
+    headless: true,
     defaultViewport: null,
     args: ["--incognito", "--no-sandbox", "--single-process", "--no-zygote"],
   });
@@ -34,7 +34,7 @@ module.exports = async function AutoMarker(action) {
     text = await GetProperty(text, `innerHTML`);
     const doSignIn = (await page.evaluateHandle(buttonToClick)).asElement();
     if (text === "Sign In" && doSignIn) {
-      await doSignIn.click();
+      // await doSignIn.click();
       isSuccess = true;
       console.log("\n > Signing IN...");
     } else {
