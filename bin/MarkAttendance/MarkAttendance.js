@@ -34,7 +34,7 @@ module.exports = async function AutoMarker(action) {
     text = await GetProperty(text, `innerHTML`);
     const doSignIn = (await page.evaluateHandle(buttonToClick)).asElement();
     if (text === "Sign In" && doSignIn) {
-      // await doSignIn.click();
+      await doSignIn.click();
       isSuccess = true;
       console.log("\n > Signing IN...");
     } else {
