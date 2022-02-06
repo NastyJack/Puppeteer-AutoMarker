@@ -3,8 +3,8 @@ const puppeteer = require("puppeteer");
 module.exports = async function AutoMarker(action) {
   let isSuccess = false,
     text = null,
-    //                 `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`
     buttonToClick = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`;
+  //buttonToClick = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`;
   buttonText = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button > span")`;
   console.log("Inside Puppy Script");
   const browser = await puppeteer.launch({
@@ -26,7 +26,7 @@ module.exports = async function AutoMarker(action) {
   await page.type("input#password", process.env.GREYTHR_PWD);
   await page.keyboard.press("Enter");
   await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
-  await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
+  //await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
 
   if (action == "SIGN IN") {
     console.log("\n > Waiting for button to load...");
