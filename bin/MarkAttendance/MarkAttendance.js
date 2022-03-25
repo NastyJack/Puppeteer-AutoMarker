@@ -9,7 +9,7 @@ module.exports = async function AutoMarker(action) {
   console.log("Inside Puppy Script");
   const browser = await puppeteer.launch({
     //Uncomment for debugging
-    //headless: false,
+    // headless: false,
     //slowMo: 500,
 
     //Required for operation
@@ -26,10 +26,14 @@ module.exports = async function AutoMarker(action) {
   await page.type("input#password", process.env.GREYTHR_PWD);
   await page.keyboard.press("Enter");
   await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
-  //await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
-
+  console.log("\n > Waiting for button to load...");
+  await page.waitForFunction("window.location.pathname.includes('/ess/home')");
+  await page.waitForTimeout(3500);
+  // await page.waitForSelector(".gt-widget-wrapper", {
+  //   visible: true,
+  //   timeout: 60000,
+  // });
   if (action == "SIGN IN") {
-    console.log("\n > Waiting for button to load...");
     text = (await page.evaluateHandle(buttonText)).asElement();
     text = await GetProperty(text, `innerHTML`);
     const doSignIn = (await page.evaluateHandle(buttonToClick)).asElement();
@@ -41,7 +45,6 @@ module.exports = async function AutoMarker(action) {
       throw "ERROR 'Sign In' Button not found";
     }
   } else if (action == "SIGN OUT") {
-    console.log("\n > Waiting for button to load...");
     text = (await page.evaluateHandle(buttonText)).asElement();
     text = await GetProperty(text, `innerHTML`);
 
