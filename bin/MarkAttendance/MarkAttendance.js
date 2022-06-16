@@ -3,9 +3,9 @@ const puppeteer = require("puppeteer");
 module.exports = async function AutoMarker(action) {
   let isSuccess = false,
     text = null,
-    buttonToClick = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`;
-  //buttonToClick = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`;
-  buttonText = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button > span")`;
+    //Try checking this if something is broken
+    buttonToClick = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)")`
+    buttonText = `document.querySelector("body > app > ng-component > div > div > div.container-fluid.app-container.px-0 > div > ghr-home > div.page.page-home.ng-star-inserted > div > gt-home-dashboard > div > div:nth-child(2) > gt-component-loader > gt-attendance-info > div > div > div.btn-container.mt-3x.flex.flex-row-reverse.justify-between.ng-star-inserted > gt-button:nth-child(1)").shadowRoot.querySelector("button")`
   console.log("Inside Puppy Script");
   const browser = await puppeteer.launch({
     //Uncomment for debugging
@@ -20,7 +20,7 @@ module.exports = async function AutoMarker(action) {
   const page = await browser.newPage();
   await page.setViewport({ width: 1366, height: 768 });
   await page.goto(process.env.GREYTHR_ATTENDANCE_LINK);
-  await page.waitForNavigation({ waitUntil: "networkidle0", timeout: 30000 });
+  await page.waitForSelector('input#username')
   console.log("\n > Logging In...");
   await page.type("input#username", process.env.GREYTHR_ID);
   await page.type("input#password", process.env.GREYTHR_PWD);
@@ -29,10 +29,7 @@ module.exports = async function AutoMarker(action) {
   console.log("\n > Waiting for button to load...");
   await page.waitForFunction("window.location.pathname.includes('/ess/home')");
   await page.waitForTimeout(3500);
-  // await page.waitForSelector(".gt-widget-wrapper", {
-  //   visible: true,
-  //   timeout: 60000,
-  // });
+
   if (action == "SIGN IN") {
     text = (await page.evaluateHandle(buttonText)).asElement();
     text = await GetProperty(text, `innerHTML`);
@@ -48,7 +45,6 @@ module.exports = async function AutoMarker(action) {
     text = (await page.evaluateHandle(buttonText)).asElement();
     text = await GetProperty(text, `innerHTML`);
 
-    // console.log("button text element ==", text);
     const doSignOut = (await page.evaluateHandle(buttonToClick)).asElement();
     if (text === "Sign Out" && doSignOut) {
       await doSignOut.click();
@@ -59,6 +55,7 @@ module.exports = async function AutoMarker(action) {
     }
   }
 
+  await page.waitForTimeout(3500);
   await page.click("a[title='Logout']");
   await page.waitForNavigation(0);
   await browser.close();
